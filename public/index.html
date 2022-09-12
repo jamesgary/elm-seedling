@@ -5,9 +5,19 @@
     <link rel="stylesheet" type="text/css" href="./css/main.css">
   </head>
   <body>
+    <div id="elm"></div>
+
     <script src="./js/main.js" charset="utf-8"></script>
     <script>
-      Elm.Main.fullscreen();
+      let app = Elm.Main.init({
+        node: document.getElementById("elm"),
+        flags: {
+          //queryParams: window.location.search,
+          //windowWidth: document.body.clientWidth,
+          //windowHeight: document.body.clientHeight,
+          //now: Date.now(),
+        },
+      });
     </script>
   </body>
 </html>

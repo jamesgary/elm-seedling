@@ -1,10 +1,16 @@
 module Main exposing (..)
 
-import Html exposing (Html, h1, text)
+import Browser
+import Element as E exposing (Element)
+import Element.Background as EBackground
+import Element.Border as EBorder
+import Element.Events as EEvents
+import Element.Font as EFont
+import Element.Input as EInput
 
 
 main =
-    Html.program
+    Browser.element
         { init = init
         , view = view
         , update = update
@@ -16,12 +22,16 @@ main =
 -- MODEL
 
 
+type alias Flags =
+    ()
+
+
 type alias Model =
     { foo : String }
 
 
-init : ( Model, Cmd Msg )
-init =
+init : Flags -> ( Model, Cmd Msg )
+init flags =
     ( { foo = "bar" }, Cmd.none )
 
 
@@ -35,7 +45,9 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    model ! []
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
 
 
 
@@ -53,4 +65,10 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    h1 [] [ text "Hello, world!" ]
+    let
+        el =
+            E.text "Hello, world!"
+    in
+    E.layout
+        []
+        el
