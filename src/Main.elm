@@ -7,6 +7,9 @@ import Element.Border as EBorder
 import Element.Events as EEvents
 import Element.Font as EFont
 import Element.Input as EInput
+import Flags exposing (Flags)
+import Html exposing (Html)
+import Json.Decode as JD
 
 
 main =
@@ -22,17 +25,18 @@ main =
 -- MODEL
 
 
-type alias Flags =
-    ()
-
-
 type alias Model =
     { foo : String }
 
 
-init : Flags -> ( Model, Cmd Msg )
-init flags =
-    ( { foo = "bar" }, Cmd.none )
+init : JD.Value -> ( Model, Cmd Msg )
+init jsonFlags =
+    case JD.decodeValue Flags.decoder jsonFlags of
+        Ok flags ->
+            ( { foo = "world" }, Cmd.none )
+
+        Err err ->
+            ( { foo = JD.errorToString err }, Cmd.none )
 
 
 
@@ -67,8 +71,8 @@ view : Model -> Html Msg
 view model =
     let
         el =
-            E.text "Hello, world!"
+            E.text ("Hello, " ++ model.foo ++ "!")
     in
     E.layout
-        []
+        [ E.padding 20 ]
         el
